@@ -1,22 +1,27 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class StatefulHome extends StatefulWidget {
+  const StatefulHome({super.key});
+  @override
+  State createState() => _StatefulHomeState();
+}
 
+class _StatefulHomeState extends State<StatefulHome> {
+  double result = 0;
+  final TextEditingController amountController = TextEditingController();
+
+  final focusedBorder = OutlineInputBorder(
+    borderSide: BorderSide(color: Colors.blue),
+    borderRadius: BorderRadius.all(Radius.circular(10)),
+  );
+  final enabledBorder = OutlineInputBorder(
+    borderSide: BorderSide(
+      color: const Color.fromARGB(255, 155, 200, 236),
+      style: BorderStyle.solid,
+    ),
+  );
   @override
   Widget build(BuildContext context) {
-
-    final focusedBorder = OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.blue),
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-          );
-    final enabledBorder =  OutlineInputBorder(
-            borderSide: BorderSide(
-              color: const Color.fromARGB(255, 155, 200, 236),
-              style: BorderStyle.solid,
-            ),
-          );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
@@ -68,6 +73,7 @@ class Home extends StatelessWidget {
                       ),
                     ),
                     TextField(
+                      controller: amountController,
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.attach_money),
                         prefixIconColor: Colors.blue,
@@ -82,7 +88,6 @@ class Home extends StatelessWidget {
                         // errorMaxLines: 2,
                         labelText: 'Amount',
                         labelStyle: TextStyle(color: Colors.blue),
-
                       ),
                       keyboardType: TextInputType.number,
                       style: TextStyle(
@@ -121,7 +126,7 @@ class Home extends StatelessWidget {
 
                         // labelStyle: TextStyle(color: Colors.blue),
                         focusedBorder: focusedBorder,
-                        enabledBorder:enabledBorder,
+                        enabledBorder: enabledBorder,
                       ),
                       style: TextStyle(
                         color: Colors.blue,
@@ -147,7 +152,7 @@ class Home extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      '0',
+                      result.toString(),
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w400,
@@ -161,9 +166,9 @@ class Home extends StatelessWidget {
                   margin: EdgeInsets.only(top: 20),
                   child: ElevatedButton(
                     onPressed: () {
-                      if (kDebugMode) {
-                        print('Convert button pressed');
-                      }
+                      setState(() {
+                        result = double.parse(amountController.text) * 100;
+                      });
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
@@ -193,6 +198,200 @@ class Home extends StatelessWidget {
     );
   }
 }
+
+// class Home extends StatelessWidget {
+//   const Home({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     double result = 0;
+//     final TextEditingController amountController = TextEditingController();
+
+//     final focusedBorder = OutlineInputBorder(
+//       borderSide: BorderSide(color: Colors.blue),
+//       borderRadius: BorderRadius.all(Radius.circular(10)),
+//     );
+//     final enabledBorder = OutlineInputBorder(
+//       borderSide: BorderSide(
+//         color: const Color.fromARGB(255, 155, 200, 236),
+//         style: BorderStyle.solid,
+//       ),
+//     );
+//     return Scaffold(
+//       appBar: AppBar(
+//         backgroundColor: Colors.blue,
+//         title: Center(
+//           child: Text(
+//             'Currency Converter',
+//             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+//           ),
+//         ),
+//       ),
+//       body: SingleChildScrollView(
+//         child: ConstrainedBox(
+//           constraints: BoxConstraints(
+//             minHeight:
+//                 MediaQuery.of(context).size.height -
+//                 AppBar().preferredSize.height -
+//                 MediaQuery.of(context).padding.top,
+//           ),
+//           child: Container(
+//             margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+//             padding: EdgeInsets.all(10),
+//             decoration: BoxDecoration(
+//               color: Colors.blue[50],
+//               borderRadius: BorderRadius.circular(10),
+//               border: Border.all(color: Colors.blue[100]!),
+//               boxShadow: [
+//                 BoxShadow(
+//                   color: Colors.blue[100]!,
+//                   blurRadius: 10,
+//                   offset: Offset(0, 10),
+//                 ),
+//               ],
+//             ),
+//             child: Column(
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               spacing: 20,
+//               children: [
+//                 Column(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   spacing: 10,
+//                   children: [
+//                     Text(
+//                       'Enter the amount',
+//                       style: TextStyle(
+//                         fontSize: 20,
+//                         fontWeight: FontWeight.w400,
+//                         color: Colors.blue,
+//                       ),
+//                     ),
+//                     TextField(
+//                       controller: amountController,
+//                       decoration: InputDecoration(
+//                         prefixIcon: Icon(Icons.attach_money),
+//                         prefixIconColor: Colors.blue,
+//                         prefixIconConstraints: BoxConstraints(minWidth: 40),
+//                         focusedBorder: focusedBorder,
+//                         enabledBorder: enabledBorder,
+//                         // errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+//                         // focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+//                         // disabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+//                         // errorText: 'Amount is required',
+//                         // errorStyle: TextStyle(color: Colors.red),
+//                         // errorMaxLines: 2,
+//                         labelText: 'Amount',
+//                         labelStyle: TextStyle(color: Colors.blue),
+//                       ),
+//                       keyboardType: TextInputType.number,
+//                       style: TextStyle(
+//                         color: Colors.blue,
+//                         fontWeight: FontWeight.w500,
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//                 Column(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   spacing: 10,
+//                   children: [
+//                     Text(
+//                       'Choose the currency',
+//                       style: TextStyle(
+//                         fontSize: 20,
+//                         fontWeight: FontWeight.w400,
+//                         color: Colors.blue,
+//                       ),
+//                     ),
+//                     TextField(
+//                       decoration: InputDecoration(
+//                         border: OutlineInputBorder(),
+//                         // label: Text(
+//                         //   'Currency',
+//                         //   style: TextStyle(color: Colors.blue),
+//                         // ),
+
+//                         // or
+//                         // labelText: 'Currency',
+//                         // or
+//                         hintText: 'Select an option',
+//                         hintStyle: TextStyle(color: Colors.blue),
+
+//                         // labelStyle: TextStyle(color: Colors.blue),
+//                         focusedBorder: focusedBorder,
+//                         enabledBorder: enabledBorder,
+//                       ),
+//                       style: TextStyle(
+//                         color: Colors.blue,
+//                         fontWeight: FontWeight.w500,
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//                 Column(
+//                   crossAxisAlignment: CrossAxisAlignment.center,
+//                   spacing: 10,
+//                   children: [
+//                     Row(
+//                       children: [
+//                         Text(
+//                           'Result',
+//                           style: TextStyle(
+//                             fontSize: 20,
+//                             fontWeight: FontWeight.w400,
+//                             color: Colors.blue,
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                     Text(
+//                       result.toString(),
+//                       style: TextStyle(
+//                         fontSize: 20,
+//                         fontWeight: FontWeight.w400,
+//                         color: Colors.blue,
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+
+//                 Container(
+//                   margin: EdgeInsets.only(top: 20),
+//                   child: ElevatedButton(
+//                     onPressed: () {
+//                       result = double.parse(amountController.text) * 100;
+//                       print(result);
+//                     },
+//                     style: ElevatedButton.styleFrom(
+//                       backgroundColor: Colors.blue,
+//                       padding: EdgeInsets.symmetric(
+//                         horizontal: 40,
+//                         vertical: 10,
+//                       ),
+//                       shape: RoundedRectangleBorder(
+//                         borderRadius: BorderRadius.circular(10),
+//                       ),
+//                     ),
+//                     child: Text(
+//                       'Convert',
+//                       style: TextStyle(
+//                         color: Colors.white,
+//                         fontSize: 20,
+//                         fontWeight: FontWeight.w400,
+//                       ),
+//                     ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 
 

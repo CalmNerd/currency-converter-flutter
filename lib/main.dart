@@ -1,5 +1,4 @@
 import 'package:currency_convertor/home.dart';
-import 'package:currency_convertor/tetachings.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,8 +10,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Home()
+    return MaterialApp(
+      home: StatefulHome(),
       // home: Tetachings()
     );
   }
