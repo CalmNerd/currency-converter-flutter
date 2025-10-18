@@ -82,6 +82,7 @@ class _StatefulHomeState extends State<StatefulHome> {
                     ),
                     TextField(
                       controller: amountController,
+                      cursorColor: Colors.blue,
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.money),
                         prefixIconColor: Colors.blue,
