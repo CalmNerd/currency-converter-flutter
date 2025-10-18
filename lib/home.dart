@@ -10,10 +10,18 @@ class _StatefulHomeState extends State<StatefulHome> {
   double result = 0;
   final TextEditingController amountController = TextEditingController();
 
+  // Add this reusable button style for dropdown items
+  final dropdownItemStyle = ButtonStyle(
+    foregroundColor: WidgetStateProperty.all(Colors.blue),
+  );
+
+  String? selectedCurrency;
+
   final focusedBorder = OutlineInputBorder(
     borderSide: BorderSide(color: Colors.blue),
     borderRadius: BorderRadius.all(Radius.circular(10)),
   );
+
   final enabledBorder = OutlineInputBorder(
     borderSide: BorderSide(
       color: const Color.fromARGB(255, 155, 200, 236),
@@ -75,7 +83,7 @@ class _StatefulHomeState extends State<StatefulHome> {
                     TextField(
                       controller: amountController,
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.attach_money),
+                        prefixIcon: Icon(Icons.money),
                         prefixIconColor: Colors.blue,
                         prefixIconConstraints: BoxConstraints(minWidth: 40),
                         focusedBorder: focusedBorder,
@@ -110,27 +118,94 @@ class _StatefulHomeState extends State<StatefulHome> {
                         color: Colors.blue,
                       ),
                     ),
-                    TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        // label: Text(
-                        //   'Currency',
-                        //   style: TextStyle(color: Colors.blue),
-                        // ),
-
-                        // or
-                        // labelText: 'Currency',
-                        // or
-                        hintText: 'Select an option',
+                    DropdownMenu(
+                      width: MediaQuery.of(context).size.width,
+                      hintText: 'Select an option',
+                      focusNode: FocusNode(),
+                      requestFocusOnTap: true,
+                      // helperText: 'Select an option',
+                      initialSelection: selectedCurrency,
+                      onSelected: (value) =>
+                          setState(() => selectedCurrency = value),
+                      dropdownMenuEntries: [
+                        DropdownMenuEntry(
+                          value: '0.01127',
+                          label: 'USD',
+                          style: ButtonStyle(
+                            foregroundColor: WidgetStateProperty.all(
+                              Colors.blue,
+                            ),
+                          ),
+                        ),
+                        DropdownMenuEntry(
+                          value: '0.00975',
+                          label: 'EUR',
+                          style: dropdownItemStyle,
+                        ),
+                        DropdownMenuEntry(
+                          value: '0.00846',
+                          label: 'GBP',
+                          style: dropdownItemStyle,
+                        ),
+                        DropdownMenuEntry(
+                          value: '1.7111',
+                          label: 'JPY',
+                          style: dropdownItemStyle,
+                        ),
+                        DropdownMenuEntry(
+                          value: '16.038',
+                          label: 'KRW',
+                          style: dropdownItemStyle,
+                        ),
+                        DropdownMenuEntry(
+                          value: '0.2105',
+                          label: 'MXN',
+                          style: dropdownItemStyle,
+                        ),
+                        DropdownMenuEntry(
+                          value: '0.0193',
+                          label: 'NZD',
+                          style: dropdownItemStyle,
+                        ),
+                        DropdownMenuEntry(
+                          value: '0.9209',
+                          label: 'RUB',
+                          style: dropdownItemStyle,
+                        ),
+                        DropdownMenuEntry(
+                          value: '0.0426',
+                          label: 'SAR',
+                          style: dropdownItemStyle,
+                        ),
+                        DropdownMenuEntry(
+                          value: '0.1074',
+                          label: 'SEK',
+                          style: dropdownItemStyle,
+                        ),
+                        DropdownMenuEntry(
+                          value: '0.0147',
+                          label: 'SGD',
+                          style: dropdownItemStyle,
+                        ),
+                      ],
+                      textStyle: TextStyle(color: Colors.blue),
+                      inputDecorationTheme: InputDecorationTheme(
                         hintStyle: TextStyle(color: Colors.blue),
-
-                        // labelStyle: TextStyle(color: Colors.blue),
-                        focusedBorder: focusedBorder,
                         enabledBorder: enabledBorder,
+                        focusedBorder: focusedBorder,
                       ),
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.w500,
+                      menuStyle: MenuStyle(
+                        maximumSize: WidgetStateProperty.all(
+                          Size(MediaQuery.of(context).size.width * 0.88, 200),
+                        ),
+                        backgroundColor: WidgetStateProperty.all(
+                          Colors.blue[50],
+                        ),
+                        shape: WidgetStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -167,7 +242,9 @@ class _StatefulHomeState extends State<StatefulHome> {
                   child: ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        result = double.parse(amountController.text) * 100;
+                        result =
+                            double.parse(amountController.text) *
+                            double.parse(selectedCurrency!);
                       });
                     },
                     style: ElevatedButton.styleFrom(
@@ -186,6 +263,20 @@ class _StatefulHomeState extends State<StatefulHome> {
                         color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+
+                Container(
+                  margin: EdgeInsets.only(top: 40),
+                  child: Center(
+                    child: Text(
+                      'Note: Exchange rates for reference only',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
